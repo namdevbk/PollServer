@@ -4,8 +4,7 @@ var W = require('winston'),
    Promise = require('bluebird'),
    _ = require('lodash'),
    request = require('request'),
-   serversDB = require('../config/servers.js');
-   serversDB = serversDB.servers;
+   serversDB = require('../config/servers.js').servers;
    W.level = 'debug';
 
 
