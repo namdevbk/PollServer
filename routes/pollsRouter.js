@@ -3,7 +3,6 @@
 var W = require('winston'),
    Promise = require('bluebird'),
    _ = require('lodash'),
-   fs = require('fs'),
    request = require('request'),
    serversDB = require('../config/servers.js');
    serversDB = serversDB.servers;
@@ -65,6 +64,7 @@ var pollsRoutes = (function(){
     	let server = req.body;
         req.checkBody('name', 'Name is required').notEmpty();
         req.checkBody('url', 'Url is required').notEmpty();
+        req.checkBody('url', 'Url is not valid. Please enter valid url (http://www.example.com)').matches('^(ftp|http|https):\/\/[^ "]+$');
 
         let errors = req.validationErrors();
 

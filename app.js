@@ -22,6 +22,12 @@ app.use(expressValidator());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.get('/', function(req, res){
+  res.send("<h1>Welcome to Polls</h1>");
+});
+
+
 require('./routes/api.js')(app);
 
 
