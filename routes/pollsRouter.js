@@ -93,32 +93,28 @@ var pollsRoutes = (function(){
 
 
     routes.remove = function(req, res){
-        var name = req.query.name;
         W.debug("query params", req.query);
+        var name = req.query.name;
+        req.checkQuery('name', 'Name query param is required').notEmpty();
+        let errors = req.validationErrors();
         
-        if (name) {
+        if (!errors) {
             var server = _.find(serversDB, _.matchesProperty('name', name));
             W.debug("server obj", server);
-	       
-	        if(server){
-		        _.pull(serversDB, server);
-		   	    res.status(200).json({success:true});
-	        }else {
-        	var errors = [
-				    {
-				      "param": "name",
-				      "msg": "server not found with name "+name
-				    }
-			    ]
-              res.status(404).json({errors: errors});
+           
+            if(server){
+                _.pull(serversDB, server);
+                res.status(200).json({success:true});
+            }else {
+            var errorMessage = [
+                    {
+                      "param": "name",
+                      "msg": "server with name "+name+" is not exists"
+                    }
+                ]
+              res.status(422).json({errors: errorMessage});
             }
         } else {
-        	var errors = [
-				    {
-				      "param": "name",
-				      "msg": "query params name is required."
-				    }
-			    ]
             res.status(400).json({errors: errors});
         }
     }
